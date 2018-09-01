@@ -1,0 +1,16 @@
+title:             HeathKang's Blog
+email:             heath.kang@foxmail.com
+description:       A blog to record work and life
+baseurl:           ""
+url:               "http://heathkang.github.io"
+
+# Social Profiles
+github_username:   heathkang
+
+# Build settings
+markdown:          kramdown
+paginate:          5
+paginate_path:     "/posts/page:num/"
+plugins:
+  - jekyll-feed
+  - jekyll-paginate
