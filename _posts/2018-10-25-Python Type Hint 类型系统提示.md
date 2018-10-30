@@ -140,8 +140,79 @@ z = Node()    # Inferred type is Node[Any]
 ```
 与上面不同的是，在运行时才能确认泛型的类型
 
+#### 类型擦除
+```
+p = Node[int]()
+q = Node[str]()
+```
+这两个实际还是同一类型，因为类型擦除的缘故，他俩还是Node类型，泛型必须要有运行时间后才能确认
 
+#### 类型bound
+```
+from typing import TypeVar
 
+class Comparable(metaclass=ABCMeta):
+    @abstractmethod
+    def __lt__(self, other: Any) -> bool: ...
+    ... # __gt__ etc. as well
+
+CT = TypeVar('CT', bound=Comparable)
+
+def min(x: CT, y: CT) -> CT:
+    if x < y:
+        return x
+    else:
+        return y
+
+min(1, 2) # ok, return type int 
+min('x', 'y') # ok, return type str
+```
+只有实现了```__lt__```方法的类型，才能进行比较，这个我觉得可以用于接口的检测，比如只有实现了特定接口的类型，才能作为特定函数的参数
+
+#### 类型的变异
+默认情况下，默认一类通过的函数，此类的父类或子类不能通过。通过改变继承的参数```covariant=True```可以将父类或子类也通过检查，`_co`常作为此种泛型的后缀。
+
+#### 类型自身函数的参数是类型本身
+```
+class Tree:
+    def __init__(self, left: Tree, right: Tree):
+        self.left = left
+        self.right = right
+```
+目前会报错，所以用str来替代
+```
+class Tree:
+    def __init__(self, left: 'Tree', right: 'Tree'):
+        self.left = left
+        self.right = right
+```
+
+#### Union
+Union[T1,T2,..] 可以是T1,T2...的子集(即可以是其中的任何一个)。
+```
+def handle_employee(e: Union[Employee, None]) -> None: ...
+```
+可以用```Union```来替代```Optional ```
+
+#### Any
+用```Any```type 来代替所有的类型
+
+#### NoReturn
+```NoReturn```确保不会返回任何值
+
+#### 只传递类型到参数，而不是类型的实例
+```
+def new_user(user_class):
+    user = user_class()
+    # (Here we could write the user object to a database)
+    return user
+```
+类似工厂函数，只是传递类型，用```Type```关键字
+```
+U = TypeVar('U', bound=User)
+def new_user(user_class: Type[U]) -> U:
+    ...
+```
 
 ## 检查
 1. ```pip install mypy``` 安装```mypy```模块
