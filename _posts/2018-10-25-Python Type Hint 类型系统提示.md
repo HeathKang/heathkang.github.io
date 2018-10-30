@@ -3,7 +3,7 @@ layout: post
 title:  "Python Type Hint 类型系统提示"
 subtitle: "programming language"
 date:   2018-10-25 18:00:05 -0400
-background: '/img/posts/nim/nim.jpg'
+background: '/img/posts/type/type.jpg'
 categories: Programming
 ---
 # Python Type Hint 类型系统提示
@@ -195,12 +195,14 @@ def handle_employee(e: Union[Employee, None]) -> None: ...
 可以用```Union```来替代```Optional ```
 
 #### Any
-用```Any```type 来代替所有的类型
+用```Any``` type 来代替所有的类型
 
 #### NoReturn
-```NoReturn```确保不会返回任何值
+
+用```NoReturn```确保不会返回任何值
 
 #### 只传递类型到参数，而不是类型的实例
+
 ```
 def new_user(user_class):
     user = user_class()

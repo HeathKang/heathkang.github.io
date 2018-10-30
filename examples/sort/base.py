@@ -40,10 +40,10 @@ class Base:
     
     def inSorted(self, a: [Comparable]) -> bool:
         for i in range(len(a) - 1):
-            if self.less(a[i+1], a[i]):
-                return False
+            if not self.less(a[i+1], a[i]):
+                return True
         else:
-            return True
+            return False
 
 def main():
     test_list = [1,2,3,4,5]
