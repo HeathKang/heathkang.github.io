@@ -9,7 +9,7 @@ class Comparable(Generic[T]):
         self.value = a
     
     def compareTo(self, b:any) -> int:
-        if self.value > b.value:
+        if self.value >= b.value:
             return 1
         else:
             return -1
@@ -40,10 +40,10 @@ class Base:
     
     def inSorted(self, a: [Comparable]) -> bool:
         for i in range(len(a) - 1):
-            if not self.less(a[i+1], a[i]):
-                return True
+            if self.less(a[i+1], a[i]):
+                return False
         else:
-            return False
+            return True
 
 def main():
     test_list = [1,2,3,4,5]
